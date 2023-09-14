@@ -8,9 +8,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
@@ -29,13 +26,9 @@ val icons = listOf<Int>(R.drawable.baseline_home_24,R.drawable.download_icon, R.
 
 @Composable
 fun Navbar(navController : NavHostController){
-    var selectedItem by remember {
-        mutableIntStateOf(0)
-
-    }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    var currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar(modifier = Modifier) {
         items.forEachIndexed { index, item ->
@@ -44,7 +37,7 @@ fun Navbar(navController : NavHostController){
                 label = { Text(item) },
                 selected = currentRoute == item,
                 onClick = {
-                    selectedItem = index
+                    currentRoute = item
                     navController.navigate(item) {
                         launchSingleTop = true
                     }
